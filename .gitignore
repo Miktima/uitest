@@ -1,0 +1,6 @@
+Lib/
+pyvenv.cfg
+Scripts/
+chrome/
+eaeunion_tests/__pycache__/
+pages/__pycache__/
