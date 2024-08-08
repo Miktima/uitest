@@ -4,3 +4,4 @@ Scripts/
 chrome/
 eaeunion_tests/__pycache__/
 pages/__pycache__/
+__pycache__/
