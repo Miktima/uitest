@@ -69,13 +69,15 @@ class Test(Base):
     @allure.description("Проверка списка документов по общественным обсуждениям и оценкам регулирующего воздействия\
                         на портале евразийского экономического союза")    
     @allure.story('Проверка фильтра по ответственному департаменту')
-    def test_eaeucheck(self, web_browser):
+    def test_eaeucheckdep(self, web_browser):
         # pytest.skip("Временный скип для написания тестовых наборов")
         self.init(web_browser)
         time.sleep(5)
         self.driver.find_element(By.XPATH, "//div[@class='cr-col-left']/div[@class='filters']\
                                  /div[@data-name='npbdiscussiondepartmentresponsibletaxId']/a").click()
-        time.sleep(1)
+        time.sleep(5)
+        iframe_el = self.driver.find_element(By.XPATH, "//div[@class='ms-dlgFrameContainer']/iframe")
+        self.driver.switch_to.frame(iframe_el)
         divlist_el = self.driver.find_elements(By.XPATH, "//div[@id='ctl00_PlaceHolderMain_DeltaApplication1__scopeid']/div[@class='tree']/\
                                                div/div")
         for nel in range(1, len(divlist_el) + 1):
@@ -83,7 +85,7 @@ class Test(Base):
                                                div/div[" + str(nel) + "]/label")
             if "Департамент конкурентной политики и политики в области государственных закупок" in lbl.text:
                 lbl.click()
-                self.driver.find_element(By.XPATH, "//div[@id='ctl00_PlaceHolderMain_DeltaApplication1__scopeid']/div[@class='buttons']/\
+                self.driver.find_element(By.XPATH, "//div[@id='ctl00_PlaceHolderMain_DeltaApplication1__scopeid']/div[@class='buttons']\
                                                /button").click()
                 break
         time.sleep(5)
