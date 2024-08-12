@@ -40,7 +40,7 @@ class Test(Base):
         trlist_eae = self.driver.find_elements(By.XPATH, "//div[@class='discussionsAndRIA-panel']/table/tbody/tr")
         # В одну строку должны попадать два элемента <tr>
         ntr = 1
-        red = re.compile(r"(\d{2}.\d{2}.\d{4}) - (\d{2}.\d{2}.\d{4}) ([\w ]+)")
+        red = re.compile(r"(\d{2}.\d{2}.\d{4}) - (\d{2}.\d{2}.\d{4})\s([\w ]+)")
         for l in trlist_eae:
             if ntr == 2:
                 # Проверяем, что указан ответственный департамент
@@ -48,9 +48,9 @@ class Test(Base):
                 # Проверяем подпись после даты
                 flist = red.findall(l.text)
                 sstartdate = (flist[0][0]).split(".")
-                startdate = date(sstartdate[2], sstartdate[1], sstartdate[0])
+                startdate = date(int(sstartdate[2]), int(sstartdate[1]), int(sstartdate[0]))
                 senddate = (flist[0][1]).split(".")
-                enddate = date(senddate[2], senddate[1], senddate[0])
+                enddate = date(int(senddate[2]), int(senddate[1]), int(senddate[0]))
                 td = date.today()
                 if td == startdate:
                     assert "Создан" in flist[0][2]
@@ -60,6 +60,7 @@ class Test(Base):
                     assert "Обсуждение завершено" in flist[0][2]
                 else:
                     assert False # Непонятная дата обсуждения
+                ntr = 1
             else:
                 # Проверяем этап разработки
                 assert "Общественное обсуждение" in l.text or "Оценка регулирующего воздействия" in l.text
