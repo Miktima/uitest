@@ -1,3 +1,4 @@
 pytest
 pytest-selenium
 allure-python-commons
+allure-pytest
